@@ -1,0 +1,237 @@
+var querystring = require("querystring"),fs = require("fs"),formidable = require("formidable");
+
+
+function show(response,request,db) {
+  console.log("Request handler 'show' was called.");
+	var str="";
+	//db.open();
+	db.followers.find(
+	function(err, followers)
+	{
+  		if( err || !followers) console.log("No followers found");
+  		else followers.forEach( function(follower)
+		{
+			str+=follower.uemail+','+JSON.stringify(follower.femail);
+
+  		})
+		response.writeHead(200, {"Content-Type": "text/html"});
+    		response.write(str);
+    		response.end();
+
+	});
+
+  /*fs.readFile("/tmp/test.png", "binary", function(error, file) {
+    if(error) {
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });*/
+}
+
+function shakehands_png(response,request,db)
+{
+	console.log("shakehands_png");
+	fs.readFile("./shakehands.png", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+
+function signup_jpg(response,request,db)
+{
+	console.log("signup_jpg");
+	fs.readFile("./signup.jpg", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+function default_jpg(response,request,db)
+{
+	console.log("default_jpg");
+	fs.readFile("./default.jpg", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+function sh_jpg(response,request,db)
+{
+	console.log("sh_jpg");
+	fs.readFile("./sh.jpg", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+
+function logo_png(response,request,db)
+{
+	console.log("logo_png");
+	fs.readFile("./logo.png", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+function newHome_css(response,request,db)
+{
+	console.log("newHome_css");
+	fs.readFile("./newHome.css", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "text/css"});
+      response.write(file);
+      response.end();
+    }
+  });
+
+}
+
+
+function newlogin_css(response,request,db)
+{
+	console.log("newHome_css");
+	fs.readFile("./newlogin.css", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "text/css"});
+      response.write(file);
+      response.end();
+    }
+  });
+
+}
+
+function jquery(response,request,db)
+{
+	console.log("jquery.js");
+	fs.readFile("./jquery.js", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "text/javascript"});
+      response.write(file);
+      response.end();
+    }
+  });
+
+}
+
+function newSignup_css(response,request,db)
+{
+	console.log("newHome_css");
+	fs.readFile("./newSignup.css", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "text/css"});
+      response.write(file);
+      response.end();
+    }
+  });
+
+}
+
+
+
+function bg_jpg(response,request,db)
+{
+	console.log("bg_jpg");
+	fs.readFile("./bg.jpg", "binary", function(error, file) {
+    if(error) {
+	console.log("file error");
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+	console.log("file returned");
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+
+}
+
+
+exports.jquery=jquery;
+exports.show=show;
+exports.logo_png=logo_png;
+exports.newHome_css=newHome_css;
+exports.newlogin_css=newlogin_css;
+exports.newSignup_css=newSignup_css;
+exports.bg_jpg=bg_jpg;
+exports.sh_jpg=sh_jpg;
+exports.default_jpg=default_jpg;
+exports.signup_jpg=signup_jpg;
+exports.shakehands_png=shakehands_png;

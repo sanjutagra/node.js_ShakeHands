@@ -1,0 +1,228 @@
+var querystring = require("querystring"),fs = require("fs"),formidable = require("formidable");
+
+function signup_html(response,request,db)
+{
+	if(request.session.user_id)
+		{
+			if(request.session.user_id.length>0)
+			{
+				response.writeHead(302, {'Location':"http://localhost:8888/home"});
+			response.end();
+			}
+		}
+	else 
+		{
+	console.log("signup.html");
+  fs.readFile("./signup.html", "binary", function(error, file) {
+    if(error) {
+      response.writeHead(500, {"Content-Type": "text/html"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(file);
+      response.end();
+    }
+  });
+}
+}
+
+function start(response,request,db) {
+	if(request.session.user_id)
+		{
+			if(request.session.user_id.length>0)
+			{
+				response.writeHead(302, {'Location':"http://localhost:8888/home"});
+				response.end();
+			}
+		}
+	else 
+		{
+	response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0,post-check=0, pre-check=0", proxy-revalidate');
+	response.setHeader('expires','-1');
+	response.setHeader('pragma','no-cache');
+
+  console.log("Request handler 'start' was called.");
+
+  fs.readFile("./login.html", "binary", function(error, file) {
+    if(error) {
+      response.writeHead(500, {"Content-Type": "text/html"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(file);
+      response.end();
+    }
+  });
+}
+}
+
+function logout(response,request,db)
+{
+	
+	delete request.session.user_id;
+	delete request.session.pwd;
+	delete request.session.logged;
+	if(request.session.insearch)
+	{
+		delete request.session.insearch;
+		request.session.vialogout=1;
+		response.writeHead(302, {'Location': 'http://localhost:8888/home'});
+      		response.end();}
+	}
+	else{
+	response.writeHead(302, {'Location': 'http://localhost:8888/start'});
+      	response.end();}
+						
+}
+
+function login_html(response,request,db)
+{
+if(request.session.user_id)
+		{
+			if(request.session.user_id.length>0)
+			{
+				response.writeHead(302, {'Location':"http://localhost:8888/home"});
+			response.end();
+			}
+		}
+	else 
+		{
+	console.log("login.html");
+  fs.readFile("./login.html", "binary", function(error, file) {
+    if(error) {
+      response.writeHead(500, {"Content-Type": "text/html"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(file);
+      response.end();
+    }
+  });
+}
+}
+
+function signup(response,request,db) {
+   var str=" ";
+if(request.session.user_id)
+		{
+			if(request.session.user_id.length>0)
+			{
+				response.writeHead(302, {'Location':"http://localhost:8888/home"});
+				response.end();
+			}
+		}
+	else 
+		{
+console.log("Request handler 'signup' was called.");
+request.on('data',function(chunk)
+{
+str=chunk.toString();
+console.log(str);
+str1=querystring.parse(str);
+var n=str.indexOf("fname=");
+var n1=str.indexOf("lname=");
+var n2=str.indexOf("uname=");
+var n3=str.indexOf("pwd=");
+var n4=str.indexOf("pwd1=");
+var fname=str.substring(n+6,n1-1);
+fname=fname.replace(/</g,"<.");
+var lname=str.substring(n1+6,n2-1);
+lname=lname.replace(/</g,"<.");
+var uname=str.substring(n2+6,n3-1);
+var pwd=str.substring(n3+4,n4-1);
+pwd=pwd.replace(/</g,"<.");
+var pwd1=str.substring(n4+5);
+pwd1=pwd1.replace(/</g,"<.");
+var a=uname.indexOf("%40");
+var abc=uname.substring(a+3);
+uname=str1.uname;
+uanme=uname.replace(/</g,"<.");
+if(pwd != pwd1)
+{
+var form='<!DOCTYPE html>'+
+							'<html>'+
+							'<head>'+
+							'</head>'+
+							'<script>'+
+							'alert("Passwords do not match!")'+
+							'</script>'+
+							'<body>'+
+							'<script>'+
+							'location.replace("http://localhost:8888/signup.html");'+
+							'</script>'+
+							'</body>'+
+							'</html>';						
+							response.writeHead(200,{"Content Type":"text/html"});
+							response.write(form);
+							response.end();
+}
+db.users1.find({email:uname},function(err,users1) {
+	if(users1.length>0)
+	{
+		 var form='<!DOCTYPE html>'+
+							'<html>'+
+							'<head>'+
+							'</head>'+
+							'<script>'+
+							'alert("Username already taken!")'+
+							'</script>'+
+							'<body>'+
+							'<script>'+
+							'location.replace("http://localhost:8888/signup.html");'+
+							'</script>'+
+							'</body>'+
+							'</html>';						
+							response.writeHead(200,{"Content Type":"text/html"});
+							response.write(form);
+							response.end();
+	}	
+	else	db.users1.save({email: uname, firstname: fname, lastname: lname, password: pwd}, function(err, saved)
+			{
+  				if( err || !saved )
+					{
+						var form='<!DOCTYPE html>'+
+						'<html>'+
+						'<head>'+
+						'</head>'+
+						'<body>'+
+						'<form method="POST" action="/signup_html"/>'+
+						'<p>'+"Encountered an error!"+'<br/></p>'+
+						'<input type="submit" value="TRY AGAIN">'+
+						'</form>'+
+						'</body>'+
+						'</html>';
+						
+						console.log("User not saved");
+						response.writeHead(200,{"Content Type":"text/html"});
+						response.write(form);
+						response.end();
+					}
+  				else
+					{
+						request.session.user_id=uname;
+						request.session.pwd=pwd;						
+						response.writeHead(302, {'Location':"http://localhost:8888/home"});
+			response.end();
+					}
+			});
+});
+/*
+else
+		{
+			console.log("Username alread exists!");
+			response.writeHead(200,{"Content Type":"text/plain"});
+			response.write("Username alread exists!");
+			response.end();
+		}*/
+}); 
+}
+}
+
+exports.signup_html=signup_html;
+exports.login_html=login_html;
+exports.start = start;
+exports.signup=signup;
+exports.logout=logout;

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="newlogin.css" />
+<script type="text/javascript">
+function fn()
+{
+	if((document.getElementById("uname").value=="")||(document.getElementById("pwd").value==""))
+	{
+		alert("blank fields");
+		return false;
+	}
+	else return true;
+}
+</script>
+</head>
+<body>
+<div class="header">
+		<ul>	<li>ShakeHands
+			<li><img src="sh.jpg" height="45" width="70"/>
+		</ul>
+	</div>
+<div class="container">
+	<div class="left">
+		<img src="sh.jpg" width="400" height="250" />
+	</div>
+	<div class="right">
+		<form method="POST" action="/Home" onSubmit="return fn()">
+		UserName:<input type="email" name="uname" id="uname"><br>
+		Password:<input type="password" name="pwd" id="pwd"><br>
+		<input type="submit" value="login">
+		<a href="signup.html">/New Users Login here</a>
+		</form>
+	</div>
+	
+</div>
+<div class="footer">Welcome to Shakehands...</div>
+</body>
+</html>

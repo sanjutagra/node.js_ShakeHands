@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="newHome.css" />
+<script type="text/javascript" src=http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".twdiv #twrem").live("click",function(){
+			var v=$(this).parents(".twdiv").text()+"uname="+document.getElementById("uname").textContent;
+			$(this).parents(".twdiv").load("/delete1",{data: v});
+		});
+		$(".twdiv #hide").live("click",function(){
+			$(this).parents(".twdiv").hide("slow");
+		});
+	});
+	function check()
+	{
+		if(document.getElementById("pattern").value=="")
+		{
+			alert("text field is empty");
+			return false;
+		}
+		if((document.getElementById("1").checked)||(document.getElementById("2").checked)||(document.getElementById("3").checked))
+			return true;
+		else
+		{
+			alert("no search type selected");
+			return false;
+		}
+	}
+	function func()
+	{
+		if(document.getElementById("tweet").value=="")
+		{
+			alert("you can not post blank tweet");
+			return false;
+		}
+		else
+		{
+			var str =document.getElementById("uname").textContent;
+			document.getElementById("tweet").value+="uname="+str;
+			return true;
+		}
+	}  							
+	$(document).ready(function(){'+
+		$("#next").click(function(){'+
+		var str="uname="+document.getElementById("uname").textContent+"page="+document.getElementById("page").textContent;'+
+		if(document.getElementById("myDiv").textContent=="No More Tweets") return;'+
+		$("#myDiv").load("/provideData",{data: "next"+str});'+
+		func1("next");'+
+		});'+
+		$("#previous").click(function(){'+
+		if(document.getElementById("page").textContent=="Page: 1") return;'+
+		var a=document.getElementById("page").textContent;'+
+		var str="uname="+document.getElementById("uname").textContent+"page="+document.getElementById("page").textContent;'+
+		$("#myDiv").load("/provideData",{data: "previous"+str});'+
+		func1("previous");'+
+		});'+
+		$("#pst").click(function(){'+
+		if(document.getElementById("tweet").value=="")'+
+		{'+
+		alert("you can not post blank tweet");'+
+		}'+
+		else{'+
+		var str =document.getElementById("uname").textContent;'+
+		var str1=document.getElementById("tweet").value+"uname="+str;'+
+		document.getElementById("tweet").value="";'+
+		$("#myDiv").load("/direct",{data: str1});'+
+		}'+
+		});'+
+	});'+
+	function func1(str){'+
+	$("#page").load("/provideData1",{data: document.getElementById("page").textContent+"task="+str});}'+
+</script>
+</head>
+<body>
+<div class="container">
+	<div class="header">
+		<ul>	<li>ShakeHands
+			<li><a href="home.html">Home</a>
+			<li><a href="home.html">Following</a>
+			<li><a href="home.html">Profile</a>
+			<li><form action="/search1" method="POST" id="inline" ><input type="text" id="text1" value="search"><input type="submit" id="submit1"></form>
+			<li><img src="sh.jpg" height="45" width="70"/>
+			<li><a href="home.html">Logout</a>
+		</ul>
+	</div>
+	<div class="left">
+		<img src="sh.jpg" width="190" height="200" />
+		<p id ="uname" align="right">'+uname+'</p>
+		<div class="post">
+			<input type="text area" id="tweet" name="tweet">
+			<button id="pst">tw@@t</button>
+		</div>
+	</div>
+	<div class="content">
+	<div id="page">Page: '+page+'</div>
+						<button type="button" id="previous">Previous</button>
+						<button type="button" id="next">Next</button>
+	<p>str1</p>
+	</div>
+	
+</div>
+<div class="footer">Copyright 1999-2005 by Refsnes Data.</div>
+</body>
+</html>

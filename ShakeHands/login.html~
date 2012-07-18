@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+</head>
+<script type="text/javascript">
+function fn()
+{
+	if((document.getElementById("uname").value=="")||(document.getElementById("pwd").value==""))
+	{
+		alert("blank fields");
+		return false;
+	}
+	else return true;
+}
+</script>
+</head>
+<body background="bg.jpg">
+<p>
+<img src="shakehands.png" align="left" width="1000" height="650" />
+<form method="POST" action="/Home" onSubmit="return fn()">
+UserName:<input type="email" name="uname" id="uname">
+Password:<input type="password" name="pwd" id="pwd">
+<input type="submit" value="login">
+<a href="signup.html">/New Users Login here</a>
+</form>
+</p>
+</body>
+<head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+</head>
+</html>
+
+
